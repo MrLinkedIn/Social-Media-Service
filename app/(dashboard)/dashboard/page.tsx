@@ -5,19 +5,23 @@ import DashboardClient from "./DashboardClient";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
-  const userId = (session!.user as any).id as string;
+  const userId = (session?.user as any)?.id as string | undefined;
 
   const [posts, business] = await Promise.all([
-    prisma.post.findMany({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
-      take: 10,
-      include: { analytics: true },
-    }),
-    prisma.business.findUnique({
-      where: { userId },
-      include: { socialAccounts: true },
-    }),
+    userId
+      ? prisma.post.findMany({
+          where: { userId },
+          orderBy: { createdAt: "desc" },
+          take: 10,
+          include: { analytics: true },
+        })
+      : Promise.resolve([]),
+    userId
+      ? prisma.business.findUnique({
+          where: { userId },
+          include: { socialAccounts: true },
+        })
+      : Promise.resolve(null),
   ]);
 
   const stats = {

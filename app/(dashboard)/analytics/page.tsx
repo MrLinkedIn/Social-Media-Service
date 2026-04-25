@@ -8,14 +8,16 @@ import { RefreshCw } from "lucide-react";
 
 export default async function AnalyticsPage() {
   const session = await getServerSession(authOptions);
-  const userId = (session!.user as any).id as string;
+  const userId = (session?.user as any)?.id as string | undefined;
 
-  const posts = await prisma.post.findMany({
-    where: { userId, status: "PUBLISHED" },
-    include: { analytics: true },
-    orderBy: { publishedAt: "desc" },
-    take: 30,
-  });
+  const posts = userId
+    ? await prisma.post.findMany({
+        where: { userId, status: "PUBLISHED" },
+        include: { analytics: true },
+        orderBy: { publishedAt: "desc" },
+        take: 30,
+      })
+    : [];
 
   const totals = posts.reduce(
     (acc, p) => {

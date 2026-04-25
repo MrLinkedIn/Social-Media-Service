@@ -5,12 +5,14 @@ import AccountsClient from "./AccountsClient";
 
 export default async function AccountsPage() {
   const session = await getServerSession(authOptions);
-  const userId = (session!.user as any).id as string;
+  const userId = (session?.user as any)?.id as string | undefined;
 
-  const business = await prisma.business.findUnique({
-    where: { userId },
-    include: { socialAccounts: true },
-  });
+  const business = userId
+    ? await prisma.business.findUnique({
+        where: { userId },
+        include: { socialAccounts: true },
+      })
+    : null;
 
   return <AccountsClient business={business} />;
 }

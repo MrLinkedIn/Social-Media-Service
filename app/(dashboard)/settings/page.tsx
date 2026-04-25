@@ -5,11 +5,11 @@ import SettingsClient from "./SettingsClient";
 
 export default async function SettingsPage() {
   const session = await getServerSession(authOptions);
-  const userId = (session!.user as any).id as string;
+  const userId = (session?.user as any)?.id as string | undefined;
 
-  const business = await prisma.business.findUnique({
-    where: { userId },
-  });
+  const business = userId
+    ? await prisma.business.findUnique({ where: { userId } })
+    : null;
 
   return <SettingsClient business={business} />;
 }
