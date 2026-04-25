@@ -9,10 +9,7 @@ export default function HomePage() {
         <div className="text-2xl font-bold text-blue-700">LocalPost</div>
         <div className="flex gap-3">
           <Link href="/sign-in">
-            <Button variant="ghost">Sign In</Button>
-          </Link>
-          <Link href="/sign-up">
-            <Button>Get Started</Button>
+            <Button>Sign In</Button>
           </Link>
         </div>
       </header>
@@ -30,14 +27,9 @@ export default function HomePage() {
           minutes. Let AI write the copy — you just approve and post.
         </p>
         <div className="flex gap-4 justify-center">
-          <Link href="/sign-up">
-            <Button size="lg" className="gap-2">
-              Start for Free <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
           <Link href="/sign-in">
-            <Button size="lg" variant="outline">
-              Sign In
+            <Button size="lg" className="gap-2">
+              Sign In <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
         </div>
